@@ -52,4 +52,4 @@ for configuration in configurations:
     stats = filter_out_stats(read_single_stat_file(input_directory + '/' + configuration + '/stats.txt', configuration))
     df = df.append(stats, ignore_index=True)
 
-df.to_excel(output_file, index=False)
+df.to_excel(output_file, index=False )
