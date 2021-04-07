@@ -1,6 +1,8 @@
 import sys
 import csv
+import os
 import pandas as pd
+
 
 def read_single_stat_file( file, config_name ):
     file1 = open(file, 'r')
@@ -36,9 +38,18 @@ def filter_out_stats(original_dict):
     filtered_dict = {k: v for (k, v) in original_dict.items() if k in target_stats}
     return filtered_dict
 
-input_folder = sys.argv[1]
+def list_all_sub_directories(directory):
+    return [name for name in os.listdir(directory) if os.path.isdir(os.path.join(directory, name))]
+
+
+input_directory = sys.argv[1]
 output_file = sys.argv[2]
 
-out = read_single_stat_file('./m5out/FFT/config1/stats.txt', 'config1')
-out_new = filter_out_stats(out)
-write_to_csv("out.csv", out)
+configurations = list_all_sub_directories(input_directory)
+
+df = pd.DataFrame()
+for configuration in configurations:
+    stats = filter_out_stats(read_single_stat_file(input_directory + '/' + configuration + '/stats.txt', configuration))
+    df = df.append(stats, ignore_index=True)
+
+df.to_excel(output_file, index=False)
