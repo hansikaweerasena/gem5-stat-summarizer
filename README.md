@@ -34,3 +34,6 @@ Following command will output csv file with for all configurations in FFT folder
 
 `python summarizeStat.py ./m5out/FFT ./output/FFT.csv
 `
+output :
+
+![img.png](img.png)
